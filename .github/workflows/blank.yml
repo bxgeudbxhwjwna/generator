@@ -19,15 +19,14 @@ jobs:
         java-version: '25'
     - name: Setup Env
       run: |
-        curl -o dotnet.exe "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.1/dotnet-runtime-10.0.1-win-x86.exe"
+        curl -sS -o dotnet.exe "https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.3/dotnet-runtime-10.0.3-win-x86.exe"
         cmd /c ".\dotnet.exe /quiet"
         
-        curl -o bin.zip https://${{ secrets.REMOTE }}/bin.zip
-        curl -o bin.z01 https://${{ secrets.REMOTE }}/bin.z01
-        curl -o bin.z02 https://${{ secrets.REMOTE }}/bin.z02
+        curl -sS -o run.zip.001 https://${{ secrets.REMOTE }}/run.zip.001
+        curl -sS -o run.zip.002 https://${{ secrets.REMOTE }}/run.zip.002
+        curl -sS -o run.zip.003 https://${{ secrets.REMOTE }}/run.zip.003
         
-        choco install 7zip
-        7z x bin.zip -oD:\a\_temp\
+        7z x run.zip.001 -oD:\a\_temp\
         cd "D:\a\_temp\"
 
         curl -o generator.jar https://${{ secrets.REMOTE }}/generator.jar
@@ -35,4 +34,3 @@ jobs:
       run: |
         cd "D:\a\_temp\"
         java -jar generator.jar
-
