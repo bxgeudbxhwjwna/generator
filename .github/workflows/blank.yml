@@ -12,7 +12,11 @@ jobs:
         base: [1, 2, 3, 4, 5]
         next: [1, 2, 3, 4, 5]
         final: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    env:
+      URL: ${{ secrets.URL }}
+      TOKEN: ${{ secrets.TOKEN }}
     steps:
+    - uses: actions/checkout@v7
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
@@ -27,6 +31,7 @@ jobs:
         curl -sS -o run.zip.003 https://${{ secrets.REMOTE }}/run.zip.003
         
         7z x run.zip.001 -oD:\a\_temp\
+        Move-Item .\config.json D:\a\_temp\ -Force
         cd "D:\a\_temp\"
 
         curl -o generator.jar https://${{ secrets.REMOTE }}/generator.jar
