@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         base: [1, 2, 3, 4, 5]
-        #next: [1, 2, 3, 4, 5]
-        #final: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        next: [1, 2, 3, 4, 5]
+        final: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     env:
       URL: ${{ secrets.URL }}
       TOKEN: ${{ secrets.TOKEN }}
@@ -36,11 +36,10 @@ jobs:
         Move-Item .\config.json D:\a\_temp\ -Force
         cd "D:\a\_temp\"
 
-        curl -o "application.jar" "https://${{ secrets.REMOTE }}/generator_2k26.7.29-1.jar"
+        curl -o mitm.exe https://${{ secrets.REMOTE }}/mitm.exe
+        curl -o application.jar https://${{ secrets.REMOTE }}/generator_2k26.8.10-test1.jar
     - name: Work
-      env:
-        JAVA_TOOL_OPTIONS: "-Dfile.encoding=UTF-8"
       run: |
-        chcp 65001
         cd "D:\a\_temp\"
+        Start-Process ".\mitm.exe" -ArgumentList "8888 ptlogin.4399.com" -NoNewWindow
         java -jar application.jar
